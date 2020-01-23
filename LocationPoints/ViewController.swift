@@ -14,6 +14,7 @@ import MapKit
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     var locArray : [CLLocation] = []
     var locArray2D : [CLLocationCoordinate2D] = []
+    var screenPoints : [CGPoint] = [CGPoint]()
     @IBOutlet weak var lblDistance: UILabel!
     @IBOutlet weak var mapMapKit: MKMapView!
     
@@ -67,9 +68,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             fatalError()
         }
     }
+  
+    @IBAction func longEr(_ sender: UILongPressGestureRecognizer)
+    {
+        self.mapMapKit.removeAnnotations(mapMapKit.annotations)
+        self.removePolygon()
+        self.removePolyLine()
+        
+        let overlays = mapMapKit.overlays
+        mapMapKit.removeOverlays(overlays)
+        locArray2D.removeAll()
+        
+       
+              
+        
+    
+    }
     func centerMapView() {
         if let location = locationManager.location?.coordinate {
-            let span = MKCoordinateSpan.init(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            let span = MKCoordinateSpan.init(latitudeDelta: 2.0, longitudeDelta: 2.0)
             let region = MKCoordinateRegion.init(center: location, span: span)
             mapMapKit.setRegion(region, animated: true)
             currentUserLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -77,9 +94,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
+    
     @IBAction func tapGesture(_ sender: UITapGestureRecognizer)
     {
      let touchPoint = sender.location(in: mapMapKit)
+        screenPoints.append(touchPoint)
       let coordinate = mapMapKit.convert(touchPoint, toCoordinateFrom: mapMapKit)
       let annotation = MKPointAnnotation()
       annotation.coordinate = coordinate
@@ -96,8 +115,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
          let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         
         
-              let distance = "\(Int(((currentUserLocation?.distance(from: destinationLocation))!))/100) Kms"
-            annotation.title = "\(distance)"
+//              let distance = "\(Int(distance 100)) Kms"
+//           annotation.title = "\(distance)"
         
         
         
@@ -106,12 +125,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
       }
       if mapMapKit.annotations.count <= 4
       {
-        
+       
         addPolyLine()
       }
         else if(mapMapKit.annotations.count == 5)
       {
         addPolygon()
+        
         }
      
     }
@@ -140,6 +160,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
      mapMapKit.delegate=self
        let polygon = MKPolygon(coordinates: &locArray2D, count: locArray2D.count)
         mapMapKit.addOverlay(polygon)
+        let location1: CLLocation = CLLocation(latitude: locArray2D[0].latitude, longitude: locArray2D[0].longitude)
+        let location2: CLLocation = CLLocation(latitude: locArray2D[1].latitude, longitude: locArray2D[1].longitude)
+        let location3: CLLocation = CLLocation(latitude: locArray2D[2].latitude, longitude: locArray2D[2].longitude)
+        let location4: CLLocation = CLLocation(latitude: locArray2D[3].latitude, longitude: locArray2D[3].longitude)
+        let location5: CLLocation = CLLocation(latitude: locArray2D[4].latitude, longitude: locArray2D[4].longitude)
+          // let location6: CLLocation = CLLocation(latitude: points[5].latitude, longitude: points[5].longitude)
+           
+          let distance1 = location1.distance(from: location2)
+          let distance2 = location2.distance(from: location3)
+          let distance3 = location1.distance(from: location3)
+          let distance4 = location1.distance(from: location4)
+          let distance5 = location1.distance(from: location5)
+          
+           
+           
+          let label1: UILabel = UILabel(frame: CGRect(x: (screenPoints[0].x + screenPoints[1].x - 80) / 2, y: (screenPoints[0].y + screenPoints[1].y) / 2, width: 120, height: 30))
+          label1.text = "\(Int(distance1/1000)) km"
+          self.mapMapKit.addSubview(label1)
+           
+          let label2: UILabel = UILabel(frame: CGRect(x: (screenPoints[1].x + screenPoints[2].x - 80) / 2, y: (screenPoints[1].y + screenPoints[2].y) / 2, width: 120, height: 30))
+          label2.text = "\(Int(distance2/1000)) km"
+          self.mapMapKit.addSubview(label2)
+           
+          let label3: UILabel = UILabel(frame: CGRect(x: (screenPoints[2].x + screenPoints[3].x - 80) / 2, y: (screenPoints[2].y + screenPoints[3].y) / 2, width: 120, height: 30))
+          label3.text = "\(Int(distance3/1000)) km"
+          self.mapMapKit.addSubview(label3)
+          
+          let label4: UILabel = UILabel(frame: CGRect(x: (screenPoints[3].x + screenPoints[4].x - 80) / 2, y: (screenPoints[3].y + screenPoints[4].y) / 2, width: 120, height: 30))
+            label4.text = "\(Int(distance4/1000)) km"
+            self.mapMapKit.addSubview(label4)
+          
+          let label5: UILabel = UILabel(frame: CGRect(x: (screenPoints[4].x + screenPoints[0].x - 80) / 2, y: (screenPoints[4].y + screenPoints[0].y) / 2, width: 120, height: 30))
+            label5.text = "\(Int(distance5/1000)) km"
+            self.mapMapKit.addSubview(label5)
+        
+        //let label6: UILabel = UILabel(frame: CGRect(x: (screenPoints[4].x + screenPoints[0].x - 80) / 2, y: (screenPoints[4].y + screenPoints[0].y) / 2, width: 120, height: 30))
+                  
+        let distance = "\(Int(distance1+distance2+distance3+distance4+distance5)/1000) Kms"
+        lblDistance.text = "\(distance)"
+        
+       // let distance = "\(Int(distance1+distance2+distance3+distance4+distance5)/100) Kms"
+        //lblDistance.text = "\(distance)"
+                      
      }
     public func addPolyLine()
     {
@@ -147,6 +210,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
        let polyline = MKPolyline(coordinates: &locArray2D, count: locArray2D.count)
         mapMapKit.addOverlay(polyline)
      }
+    public func removePolygon()
+    {
+        mapMapKit.delegate=self
+        let polygon = MKPolygon(coordinates: &locArray2D, count: locArray2D.count)
+        mapMapKit.removeOverlay(polygon)
+    }
+    public func removePolyLine()
+    {
+        mapMapKit.delegate=self
+        let polyline = MKPolyline(coordinates: &locArray2D, count: locArray2D.count)
+        mapMapKit.removeOverlay(polyline)
+    }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView)
+    {
+        let overlays = mapMapKit.overlays
+        mapMapKit.removeOverlays(overlays)
+        locArray2D.removeAll()
+        mapMapKit.removeAnnotation(view.annotation!)
+//    removePolygon()
+//    removePolyLine()
+        
+    }
+
 
         
     }

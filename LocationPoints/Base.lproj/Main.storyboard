@@ -19,6 +19,7 @@
                                 <rect key="frame" x="20" y="103" width="374" height="663"/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="fra-ot-U3Q" appends="YES" id="DSc-kL-DTZ"/>
+                                    <outletCollection property="gestureRecognizers" destination="nR8-nM-fOW" appends="YES" id="DMU-ol-QkT"/>
                                 </connections>
                             </mapView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FMo-mw-2Uq">
@@ -52,6 +53,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="nR8-nM-fOW">
+                    <connections>
+                        <action selector="longEr:" destination="BYZ-38-t0r" id="hf2-NJ-0Fg"/>
+                        <outlet property="delegate" destination="MgG-xV-3mJ" id="8e4-Xg-8Xs"/>
+                    </connections>
+                </pongPressGestureRecognizer>
                 <tapGestureRecognizer id="fra-ot-U3Q">
                     <connections>
                         <action selector="tapGesture:" destination="BYZ-38-t0r" id="UL3-T5-fkA"/>
@@ -59,7 +66,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1042.0289855072465" y="137.94642857142856"/>
+            <point key="canvasLocation" x="894" y="138"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Iul-Lp-8Ec">
