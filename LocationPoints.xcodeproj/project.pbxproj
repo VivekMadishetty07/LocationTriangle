@@ -24,6 +24,7 @@
 		9B46F86F23D8E330006162C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B46F87223D8E330006162C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B46F87423D8E330006162C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B46F87D23D8EED5006162C4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +41,7 @@
 		9B46F85A23D8E32E006162C4 = {
 			isa = PBXGroup;
 			children = (
+				9B46F87C23D8EEB0006162C4 /* Framework */,
 				9B46F86523D8E32F006162C4 /* LocationPoints */,
 				9B46F86423D8E32F006162C4 /* Products */,
 			);
@@ -65,6 +67,14 @@
 				9B46F87423D8E330006162C4 /* Info.plist */,
 			);
 			path = LocationPoints;
+			sourceTree = "<group>";
+		};
+		9B46F87C23D8EEB0006162C4 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				9B46F87D23D8EED5006162C4 /* MapKit.framework */,
+			);
+			path = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
